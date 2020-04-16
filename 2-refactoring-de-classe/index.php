@@ -1,22 +1,21 @@
 <?php
 include 'Form.php';
 
-// YOUR CODE HERE
+// Des variables par défaut pour vos tests.
 $action = '#';
 $method = 'POST';
-$name = 'Pandémie';
-$min_age = 14;
-$min_players = 2;
-$max_players = 4;
-$is_available = (bool) true;
+$nom = 'Ruo';
+$prenom = 'Bily';
+$options = [1 => 'Mr', 2=>'Mme', 3=>'Other'];
+// YOUR CODE HERE
 
-$form = new Form($action, $method);
-$form->addTextField('name',$name); 
-$form->addNumberField('min_age',$min_age);
-$form->addNumberField('min_players',$min_players);
-$form->addNumberField('max_players',$max_players);
-$form->addCheckboxField('is_available', $is_available);
+$form = new Form($action, $method);  // création du formulaire
+$TextField = new TextField($action, $method);
 
-$form->addSubmitButton('Modifier');
+$form->addTextField('nom',$nom); //input de type texte avec comme valeur par défaut $nom
+$form->addTextField('prenom',$prenom); //input de type texte avec comme valeur par défaut $prenom
+$form->addNumberField('Age',15);
+$form->addSubmitButton('Send'); //bouton pour soumettre le formulaire se nommant send
+$form->addSelectField($options, 'title', 2);
 
-echo $form->build();
+echo $form->build(); // générer le formulaire

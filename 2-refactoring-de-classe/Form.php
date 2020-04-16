@@ -1,37 +1,59 @@
 <?php
+
+include 'TextField.php';
+include 'NumberField.php';
+
 class Form{
-
-    private $fields = [];
-    private $method;
-    private $action;
+    public $action;
+    public $method;
+    private $fields=[];
     private $button;
+    
 
-    public function __construct(String $action, String $method)
-    {
+    public function __construct(string $action, string $method) {
         $this->action = $action;
         $this->method = $method;
     }
-    public function addTextField(String $fieldName, String $fieldValue)
+
+    public function __toString()
     {
-        $this->fields[] = "<input type='text' name='$fieldName' value='$fieldValue'>";
-        return $this;
-    }
-    public function addNumberField(String $fieldName, int $fieldValue) {
-        $this->fields[] = "<input type='number' name='$fieldName' value='$fieldValue'>";
-        return $this;
+        return $this->action;
+        return $this->method;
     }
 
-    public function addCheckboxField(String $fieldName, bool $fieldValue)
+// cette fonction permet d'ajouter une case permetant d'avoir du texte 
+    public function addTextField ($name, $value) {
+         $this->fields[] = new TextField($name, $value);
+        }
+// cette fonction permet d'ajouter une case permetant d'avoir des nombre
+    public function addNumberField ($name, $value) {
+        $this->fields[] = new NumberField($name, $value);
+    }
+// cette fonction permet d'avoir une case a valider pour de futur mise a jour
+    public function addCheckboxField(String $name, bool $value) {
+        $this->fields[] = new CheckboxField($name, $value);
+    }
+// cette fonction permet d'ajouter un bouton d'envoie
+    public function addSubmitButton($buttonname)
     {
-        $checked = ($fieldValue)?'checked':'';
-        $this->fields[] = "<input type='checkbox' name='$fieldName' $checked>";
+        $this->fields[] = "<input type='submit' value='$buttonname'>";
         return $this;
-
     }
-    public function addSubmitButton($text)
+// cette fonction permet d'ajouter une barre de séléction
+// cette fonction Selectadd n'est pas terminé
+    public function addSelectField (array $options, string $nameField , string $valueField)
     {
-        $this->button = "<input type='submit' value='$text'>";
+        $build_html = "<select name='$nameField'>";
+        foreach ($options as $key => $option) {
+         $build_html .= "<option value='$key'>$option</option>";
     }
+        $build_html .= "</select>";
+        $this->fields[]= $build_html;
+        return $this;
+}
+
+// cette fonction permet de fermer le fomulaire avec la balise HTML
+
     public function build()
     {
         $html = "<form action='$this->action' method='$this->method'>";
@@ -42,4 +64,5 @@ class Form{
         $html .= '</form>';
         return $html;
     }
+
 }
