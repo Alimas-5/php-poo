@@ -24,7 +24,7 @@ class DBConnection {
     {
       if(!self::$instance)
       {
-        self::$instance = new ConnectDb();
+        self::$instance = new DBConnection();
       }
      
       return self::$instance;
