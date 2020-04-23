@@ -1,5 +1,5 @@
 <?php
-
+include "inc/DBConnection.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,26 @@
 <body>
 	<?php
 		if('POST' == $_SERVER['REQUEST_METHOD']) {
-
+			
+			try{
+				$name = $_POST['name'];
+				$players_min = $_POST['player_min'];
+				$players_max = $_POST['player_max'];
+				$age_min = $_POST['age_min'];
+				$age_max = $_POST['age_max'];
+				$picture = $_POST['picture'];
+				
+                $sql = "INSERT INTO boardgames (name, players_min, players_max, age_min, age_max, picture) 
+						VALUES('$name','$players_min','$players_max','$age_min','$age_max','$picture')";
+                $bdd = DBConnection::getInstance()->getConnection();
+                $bdd->prepare($sql);
+				$bdd->execute(array(':name' => $name,':player_min' => $players_min,':player_max' => $players_max,':age_min' => $age_min,':age_max' => $age_max,':picture' => $picture));
+                echo 'Entrée ajoutée dans la table';
+			}
+			
+			catch(PDOException $e){
+				echo "Erreur : " . $e->getMessage();
+			  }
 		}
 	?>
 	<a href="./read.php">Liste des jeux</a>
